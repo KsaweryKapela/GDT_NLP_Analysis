@@ -22,9 +22,6 @@ var/
 wheels/
 pip-wheel-metadata/
 share/python-wheels/
-.my_env_project/NLP_BRUDNA.xlsx
-.my_env_project/NLP_CLEAN.xlsx
-.my_env_project/NLP_PILOT.xlsx
 *.egg-info/
 .installed.cfg
 *.egg
