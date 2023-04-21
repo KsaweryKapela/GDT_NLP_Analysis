@@ -1,4 +1,5 @@
 import pandas as pd
+import torch
 
 def open_and_prepare_df(ds):
 
@@ -15,3 +16,7 @@ def open_and_prepare_df(ds):
         df = df[df[item].apply(lambda x: len(x) > 10)]
 
     return df
+
+def set_device():
+    print(f'Cuda available: {torch.cuda.is_available()}')
+    return "cuda:0" if torch.cuda.is_available() else "cpu"
