@@ -1,9 +1,15 @@
-from helpers import open_and_prepare_df, set_device
+import sys
+import dotenv
+import os
+dotenv.load_dotenv()
+sys.path.append(os.getenv('MAINDIR'))
+from helpers.ds_helpers import open_and_prepare_df
+from helpers.models_helpers import set_device
 import numpy as np
-from transformer_class import BertTransformer
+import pandas as pd
+from feature_extraction.transformer_class import BertTransformer
 from sklearn import decomposition
 from transformers import AutoTokenizer, AutoModel
-import pandas as pd
 
 
 def initialize_herBERT_transformer(transformer, device, max_length=60):
@@ -34,8 +40,11 @@ def perform_PCA(X, n_comp=300):
 
 if __name__ == '__main__':
 
+    DATASET = 'main'
+    NAME = 'NLP_FEATURES'
+
     device = set_device()
-    df = open_and_prepare_df('main')
+    df = open_and_prepare_df(DATASET)
 
     bert_transformer = initialize_herBERT_transformer(BertTransformer, device)
     X_strings = [('nlp_2', 'nlp_3', 'nlp_4', 'nlp_5'),
@@ -47,10 +56,10 @@ if __name__ == '__main__':
     features_df = pd.DataFrame()
     for arg in X_strings:
         X = transform_and_stack(df, bert_transformer, arg)
-        X = perform_PCA(X)
+        X = perform_PCA(X, n_cmop=300)
         features_df[f'{arg[0]}{len(arg)}'] = X.tolist()
         print(f'{arg} added')
 
     features_df['label'] = df['GDT_score'].values
     features_df.columns = ['nlp_all', 'nlp_2', 'nlp_3', 'nlp_4', 'nlp_5', 'label']
-    features_df.to_excel(f'datasets/NLP_FEATURES.xlsx')
+    features_df.to_excel(f'datasets/{NAME}.xlsx')

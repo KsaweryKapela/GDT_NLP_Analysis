@@ -1,7 +1,6 @@
-from typing import Callable, List, Optional, Tuple
+from typing import List, Tuple
 from sklearn.base import TransformerMixin, BaseEstimator
 import torch
-from IPython.display import clear_output
 import pandas as pd
 
 class BertTransformer(BaseEstimator, TransformerMixin):

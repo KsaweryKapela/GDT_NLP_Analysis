@@ -1,10 +1,16 @@
 import pandas as pd
-import torch
 import numpy as np
+import sys
+import dotenv
+import os
+
 
 def open_and_prepare_df(ds):
 
-    path = 'datasets/'
+    dotenv.load_dotenv()
+    main_dir = os.getenv('MAINDIR')
+
+    path = f'{main_dir}datasets/'
     if ds == 'eval':
         df = pd.read_excel(io=f'{path}NLP_PILOT.xlsx')
 
@@ -20,11 +26,6 @@ def open_and_prepare_df(ds):
         df = df[df[item].apply(lambda x: len(x) > 10)]
 
     return df
-
-def set_device():
-    print(f'Cuda available: {torch.cuda.is_available()}')
-    return "cuda:0" if torch.cuda.is_available() else "cpu"
-    
 
 def X_y_split(df, X_string):
     
