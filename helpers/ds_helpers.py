@@ -11,19 +11,17 @@ def open_and_prepare_df(ds):
     main_dir = os.getenv('MAINDIR')
 
     path = f'{main_dir}datasets/'
-    if ds == 'eval':
-        df = pd.read_excel(io=f'{path}NLP_PILOT.xlsx')
 
-    elif ds == 'main':
+    if ds == 'main':
         df = pd.read_excel(io=f'{path}NLP_CLEAN.xlsx')
         df = df[df['time'] > 300]
         df = df[df['label'] != 1]
 
+        for item in [f'nlp_{i}' for i in range(2, 6)]:
+            df = df[df[item].apply(lambda x: len(x) > 10)]
+
     elif ds == 'features':
         df = pd.read_excel(io=f'{path}NLP_FEATURES.xlsx')
-
-    for item in [f'nlp_{i}' for i in range(2, 6)]:
-        df = df[df[item].apply(lambda x: len(x) > 10)]
 
     return df
 
