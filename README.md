@@ -11,3 +11,4 @@ As per study pre-registration, final employed model was Ridge Regression, with b
 r = 0.476, which is a decent result taking into account pioneer work done and not the best data quality.
 
 Model clearly lacks samples of higher GDT scorers, which can be seen in figure below.
+![output](https://github.com/KsaweryKapela/GDT_NLP_Analysis/assets/103521727/e6c253a7-e06b-46c2-828e-6ff7b741c326)
