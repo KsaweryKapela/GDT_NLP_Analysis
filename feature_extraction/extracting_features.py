@@ -40,31 +40,26 @@ def perform_PCA(X, n_comp=300):
 
 if __name__ == '__main__':
 
-    DATASET = 'connected'
-    NAME = 'NLP_EVAL_FEATURES'
+    DATASET = 'main'
+    NAME = 'NLP_FEATURES'
 
     device = set_device()
     df = open_and_prepare_df(DATASET)
 
     bert_transformer = initialize_herBERT_transformer(BertTransformer, device)
-    X_strings = [('nlp_2', 'nlp_3', 'nlp_4', 'nlp_5'),
-                 ('nlp_2',), 
+    X_strings = [('nlp_2',), 
                  ('nlp_3',),
                  ('nlp_4',),
                  ('nlp_5',)]
     
     features_df = pd.DataFrame()
+    
     for arg in X_strings:
         X = transform_and_stack(df, bert_transformer, arg)
-
-
-        X = perform_PCA(X, n_comp=300)
 
         features_df[f'{arg[0]}{len(arg)}'] = X.tolist()
         print(f'{arg} added')
 
     features_df['label'] = df['GDT_score'].values
-    features_df.columns = ['nlp_all', 'nlp_2', 'nlp_3', 'nlp_4', 'nlp_5', 'label']
-    if DATASET == 'connected':
-        features_df = features_df[:91] # Extracting eval features only
+    features_df.columns = ['nlp_2', 'nlp_3', 'nlp_4', 'nlp_5', 'label']
     features_df.to_excel(f'datasets/{NAME}.xlsx')
